@@ -3,26 +3,26 @@ import requests from "../Request";
 import axios from "axios";
 import { Link } from "react-router-dom";
 const Search = () => {
-  let ref = useRef(null);
+  // let ref = useRef(null);
   const [state, setState] = useState({
     val: "",
     searchVal: [],
     showRes: false,
   });
 
-  useEffect(() => {
-    let close = (e) => {
-      if (!ref.current.contains(e.target)) {
-        setState({ showRes: false });
-        console.log(ref.current);
-      }
-    };
-    document.addEventListener("mousedown", close);
+  // useEffect(() => {
+  //   let close = (e) => {
+  //     if (!ref.current.contains(e.target)) {
+  //       setState({ showRes: false });
+  //       console.log(ref.current);
+  //     }
+  //   };
+  //   document.addEventListener("mousedown", close);
 
-    return () => {
-      document.removeEventListener("mousedown", close);
-    };
-  });
+  //   return () => {
+  //     document.removeEventListener("mousedown", close);
+  //   };
+  // });
 
   const handleChange = (e) => {
     setState({ val: e.target.value });
@@ -72,7 +72,7 @@ const Search = () => {
       />
       {state.showRes && (
         <div className="top-7 z-50 rounded-lg absolute  w-[265px] bg-white text-black ">
-          <ul ref={ref}>{moviesList}</ul>
+          <ul>{moviesList}</ul>
         </div>
       )}
     </>
