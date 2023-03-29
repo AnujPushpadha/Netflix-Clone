@@ -20,6 +20,7 @@ const Movie = ({ item }) => {
   };
 
   const saveShow = async (e) => {
+    e.stopPropagation();
     if (user?.email) {
       setLike(!like);
       setSaved(true);
@@ -33,7 +34,6 @@ const Movie = ({ item }) => {
     } else {
       alert("Please log in to save a movie");
     }
-    e.stopPropagation();
   };
 
   return (
