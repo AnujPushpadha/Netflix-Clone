@@ -6,6 +6,8 @@ import Movie from "./Movie";
 const Row = ({ title, fetchURL, rowID }) => {
   const [movies, setMovies] = useState([]);
   const [like, setLike] = useState(false);
+
+  // fetching movies from api
   useEffect(() => {
     axios.get(fetchURL).then((response) => {
       setMovies(response.data.results);

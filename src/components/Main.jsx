@@ -2,6 +2,12 @@ import React, { useEffect, useState } from "react";
 import requests from "../Request";
 import axios from "axios";
 import Search from "./Search";
+
+import { UserAuth } from "../context/AuthContext";
+import { db } from "../firebase";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import Genres from "./Genres";
+
 const Main = () => {
   const [movies, setMovies] = useState([]);
 
@@ -11,12 +17,27 @@ const Main = () => {
       setMovies(response.data.results);
     });
   }, []);
-  // console.log(movie);
+
   const truncateString = (str, num) => {
     if (str?.length > num) {
       return str.slice(0, num) + "...";
     } else {
       return str;
+    }
+  };
+  const { user } = UserAuth();
+  const movieID = doc(db, "users", `${user?.email}`);
+  const saveShow = async (e) => {
+    if (user?.email) {
+      await updateDoc(movieID, {
+        savedShows: arrayUnion({
+          id: movie.id,
+          title: movie.title,
+          img: movie.backdrop_path,
+        }),
+      });
+    } else {
+      alert("Please log in to save a movie");
     }
   };
   return (
@@ -32,13 +53,17 @@ const Main = () => {
         <div className="w-full absolute top-20 opacity-50 hover:opacity-100 flex items-center justify-center">
           <Search />
         </div>
-        <div className=" z-10 absolute w-full top-[20%] p-4 md:p-8">
+
+        <div className=" z-10 absolute w-full top-[30%] p-4 md:p-8">
           <h1 className="text-3xl md:text-5xl font-bold">{movie?.title}</h1>
           <div className="my-4">
             <button className="border bg-gray-300 text-black border-gray-300 py-2 px-5">
               Play
             </button>
-            <button className="border text-white border-gray-300 py-2 px-5 ml-4">
+            <button
+              onClick={saveShow}
+              className="border text-white border-gray-300 py-2 px-5 ml-4"
+            >
               Watch Later
             </button>
           </div>

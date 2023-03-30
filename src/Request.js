@@ -11,6 +11,7 @@ const requests = {
 
 export default requests;
 
+// requestPopular: `https://api.themoviedb.org/3/movie/popular?api_key=${key}&language=en-US&page=1&with_genres=36`,
 // https://api.themoviedb.org/3/search/multi?api_key=${key}&language=en-US&query=iron&page=1&include_adult=false
 
 // `

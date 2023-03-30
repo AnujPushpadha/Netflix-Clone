@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import { useParams } from "react-router-dom";
 const MovieInfo = () => {
   let id = useParams();
@@ -34,6 +35,7 @@ const MovieInfo = () => {
       })
       .catch((err) => console.log(err));
   };
+
   const truncateString = (str, num) => {
     if (str?.length > num) {
       return str.slice(0, num) + "...";
@@ -46,7 +48,16 @@ const MovieInfo = () => {
     const minutes = num % 60;
     return `${hours}h ${minutes}min`;
   };
-  //   console.log(state);
+
+  const slideLeft = () => {
+    var slider = document.getElementById("slider");
+    slider.scrollLeft = slider.scrollLeft - 500;
+  };
+  const slideRight = () => {
+    var slider = document.getElementById("slider");
+    slider.scrollLeft = slider.scrollLeft + 500;
+  };
+
   return (
     <div className="w-full h-[600px] text-white">
       <div className="w-full h-full">
@@ -111,10 +122,50 @@ const MovieInfo = () => {
         </div>
       </div>
 
-      <div className="lists">
-        <h2 style={{ marginLeft: "25px" }}>Trailer</h2>
-        <br />
+      <div>
+        <h1 className="text-white font-bold md:text-xl p-4">Cast</h1>
+      </div>
 
+      <div className="lists">
+        <div className="relative flex items-center group">
+          <MdChevronLeft
+            onClick={slideLeft}
+            className="bg-white left-0 rounded-full absolute opacity-50 hover:opacity-100 cursor-pointer z-10 hidden group-hover:block"
+            size={40}
+          />
+          <div
+            id={"slider"}
+            className="w-full h-full overflow-x-scroll whitespace-nowrap scroll-smooth scrollbar-hide relative"
+          >
+            {state.credits.cast &&
+              state.credits.cast.map((cast, i) => (
+                <div className="w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px] inline-block cursor-pointer relative p-2">
+                  <span key={cast.cast_id}>
+                    <img
+                      alt={cast.cast_id}
+                      style={{
+                        width: "115px",
+                        height: "120px",
+                        marginRight: "15px",
+                        borderRadius: "100%",
+                      }}
+                      src={`https://image.tmdb.org/t/p/w500/${cast.profile_path}`}
+                    />
+                  </span>
+                </div>
+              ))}
+          </div>
+          <MdChevronRight
+            onClick={slideRight}
+            className="bg-white right-0 rounded-full absolute opacity-50 hover:opacity-100 cursor-pointer z-10 hidden group-hover:block"
+            size={40}
+          />
+        </div>
+
+        <br />
+        <h2 className="text-2xl  font-bold" style={{ marginLeft: "25px" }}>
+          Trailer
+        </h2>
         {state.video.length ? (
           <div className="video">
             <iframe
