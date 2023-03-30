@@ -57,7 +57,7 @@ const MovieInfo = () => {
     var slider = document.getElementById("slider");
     slider.scrollLeft = slider.scrollLeft + 500;
   };
-
+  console.log(state?.credits?.cast);
   return (
     <div className="w-full h-[600px] text-white">
       <div className="w-full h-full">
@@ -137,23 +137,29 @@ const MovieInfo = () => {
             id={"slider"}
             className="w-full h-full overflow-x-scroll whitespace-nowrap scroll-smooth scrollbar-hide relative"
           >
-            {state.credits.cast &&
-              state.credits.cast.map((cast, i) => (
-                <div className="w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px] inline-block cursor-pointer relative p-2">
-                  <span key={cast.cast_id}>
-                    <img
-                      alt={cast.cast_id}
-                      style={{
-                        width: "115px",
-                        height: "120px",
-                        marginRight: "15px",
-                        borderRadius: "100%",
-                      }}
-                      src={`https://image.tmdb.org/t/p/w500/${cast.profile_path}`}
-                    />
-                  </span>
-                </div>
-              ))}
+            <div className="w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px] inline-block cursor-pointer relative p-2 ">
+              {state.credits.cast &&
+                state.credits.cast.map((cast, i) => (
+                  <div className="w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px] inline-block cursor-pointer relative p-2">
+                    <span key={cast.cast_id}>
+                      <img
+                        alt={cast.cast_id}
+                        className="w-full h-auto block rounded-full"
+                        src={`https://image.tmdb.org/t/p/w500/${cast.profile_path}`}
+                      />
+                    </span>
+
+                    <div
+                      onClick={() => play(item.id)}
+                      className="absolute top-0 left-0 w-full h-full hover:bg-black/80 opacity-0 hover:opacity-100 text-white"
+                    >
+                      <p className="white-space-normal text-xs md:text-sm font-bold flex justify-center items-center h-full text-center">
+                        {cast?.name}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+            </div>
           </div>
           <MdChevronRight
             onClick={slideRight}
